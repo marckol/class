@@ -4,6 +4,33 @@
 
 ## Syntax
 
+```
+Klass.Class({
+    name: 'hr.Employee',
+    construct : function() {
+    },
+    properties : [
+    ],
+    methods: {
+    }
+}
+```
+
+```
+Klass.Class({
+    name: 'hr.Manager',
+    super: hr.Employee,
+    construct : function() {
+    },
+    properties : {
+    },
+    methods: {
+    }
+}
+```
+
+### Properties
+
 Two main syntaxes are possible: 
 
   - Object for description of properties
@@ -11,4 +38,7 @@ Two main syntaxes are possible:
   
   
   - String short syntax for the definition of properties
+
+### Methods
+
 
