@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="serenix_utils.js" type="text/javascript"></script>
+        <script src="serenix_script_utils.js" type="text/javascript"></script>
+        <script src="xregexp-all.js" type="text/javascript"></script>
+        <script src="serenix_object.js" type="text/javascript"></script>
+        <script src="serenix_types.js" type="text/javascript"></script>
+        <script src="serenix_parser_statements.js" type="text/javascript"></script>
+        <script src="serenix_statement_parser.js" type="text/javascript"></script>
+        <script src="serenix_class_base.js" type="text/javascript"></script>
+        
+        <script src="serenix_array.js" type="text/javascript"></script>
+        <script src="serenix_base_scripts_load.js" type="text/javascript"></script>
+        <script src="serenix_xml_http_request.js" type="text/javascript"></script>
+        <script src="serenix_data.js" type="text/javascript"></script>
+        <script src="serenix_data_persistor.js" type="text/javascript"></script>
+        <script src="serenix_date_utils.js" type="text/javascript"></script>
+        <script src="serenix_delimited_text_parser.js" type="text/javascript"></script>
+        <script src="serenix_namespace_utils.js" type="text/javascript"></script>
+        <script src="serenix_grammar.js" type="text/javascript"></script>
+        <!--<script src="serenix_expression.js" type="text/javascript"></script>
+        <script src="serenix_statements.js" type="text/javascript"></script>
+        <script src="serenix_expre_parser.js" type="text/javascript"></script> -->       
+        
+        
+        <script src="serenix_file.js" type="text/javascript"></script>
+        <!--<script src="serenix_formula.js" type="text/javascript"></script>-->
+        <script src="serenix_host.js" type="text/javascript"></script>
+        <script src="serenix_html_utils.js" type="text/javascript"></script> <!-- -->
+        
+        <!--<script src="serenix_init.js" type="text/javascript"></script> -->
+        <script src="serenix_ip.js" type="text/javascript"></script>
+        <script src="serenix_json_parse.js" type="text/javascript"></script>
+        <script src="serenix_messages.js" type="text/javascript"></script>
+        <script src="serenix_network.js" type="text/javascript"></script>
+        <script src="serenix_orm_base.js" type="text/javascript"></script>
+        <script src="serenix_patterns.js" type="text/javascript"></script>
+       <script src="serenix_questions_data.js" type="text/javascript"></script>
+        <script src="serenix_regexp.js" type="text/javascript"></script>        
+        <script src="serenix_ui_form.js" type="text/javascript"></script>  <!-- -->  <!---->
+        <script src="../libs/platform-js/platform.js" type="text/javascript"></script>
+        <script src="serenix_platform.js" type="text/javascript"></script>
+        <script src="xregexp-all.js" type="text/javascript"></script>
+        
+        <script type="text/javascript">
+            var libs = [
+	"serenix_array",
+    "serenix_base_scripts_load",
+    "serenix_class_base",
+    "serenix_data",
+    "serenix_data_persistor",
+    "serenix_date_utils",
+    "serenix_delimited_text_parser",
+    "serenix_expression",
+    "serenix_expre_parser",
+    "serenix_file",
+    "serenix_formula",
+    "serenix_grammar",
+    "serenix_host",
+    "serenix_html_utils",
+    "serenix_init",
+    "serenix_ip",
+    "serenix_json_parse",
+    "serenix_messages",
+    "serenix_network",
+    "serenix_orm_base",
+    "serenix_patterns",
+    "serenix_questions_data",
+    "serenix_regexp",
+    "serenix_script_utils",
+    "serenix_statements",
+    "serenix_ui_form",
+    "serenix_utils",
+    "serenix_xml_http_request"
+];
+            
+            
+        </script>
+    </head>
+    <body>
+        <div id="output">TODO write content</div>
+        <script type="text/javascript">          
+
+            var output = document.getElementById("output");
+            output.innerHTML = "";
+            
+            var _i = toInteger("0xffff");
+            
+            
+            var snull = String(null);
+            output.innerHTML += "<br/>new String(null).toString(): '" + snull.toString() + "'<br/>";
+            
+            output.innerHTML += "<br/>new String(undefined).toString(): '" + new String(undefined).toString() + "'<br/>";
+            
+            output.innerHTML += "<br/>new String(Date.now()).toString(): '" + new String(Date.now()).toString() + "'<br/>";
+            
+            output.innerHTML += "<br/>new String(new Date(Date.now())).toString(): '" + new String(new Date(Date.now())).toString() + "'<br/>";
+            
+            output.innerHTML += "<br/>String(new Date(Date.now())).toString(): '" + String(new Date(Date.now())).toString() + "'<br/>";
+            
+            function Test() {
+                
+            }
+            
+            Test.prototype._type = "int";
+            
+            Test.prototype._value = 1;
+            /**
+             * 
+             * @returns {Number}
+             */
+            Test.prototype.getType = function() {
+                return this._type;
+            };
+            
+            var t = new Test();
+            
+            output.innerHTML += ("<br/>Test class type: " + t.getType()) + '<br/>';
+            
+            define('hcm', [ 
+                defineClass(
+                    //class with static elements
+                    extObj(function Emp() {}, { 
+                        NAME_FIELD : "name"
+                    }), 
+                    //instance method
+                    { 
+                        getName: function() { return this._name; 
+                    } 
+                }),
+                function Grade() {
+                    
+                },
+                Klass.Class('Role', function(opts) {
+                        if (opts && typeof opts === 'object') {
+                            this.setId(opts.id);
+                            this.setName(opts.name||"");
+                            this.setType(opts.type);
+                        }
+                    }, 
+                    //[ "id<unsigned int>", "name<string:\"\">", "type<short::1|2|3|5>"]
+                    [ "id<unsigned int>", 'keys<Array:[1, 2, 3]>', "name<string:\"\">", "type<IntType::{SHORT:1, BYTE:2, INT: 3, LONG:5};>"]
+                )
+            ]);
+            
+            var role = new hcm.Role({name: 'clerck', id: 1, type:3});
+            
+            SereniX.Class(
+                'hr.School',
+                [
+                    "name<String(0, 60)>",
+                    "address<SereniX.types.Object({name: 'Address', fields:{quarter:'string(5,50)', street: 'unsigned int', town: 'string(0,60)'}})>"
+                ]
+            );
+            
+            var E = SereniX.Class(
+                    'hr.Employee', 
+                    [ 
+                        'password<SereniX.types.Password({name:"StrongPassword", nameField:"fullName",minLength:12,maxLength:18})>', //the property password of type password with min length equals to 12 and max length equals to 18
+                        'echelon<unsigned int:3:1..10>',
+                        'name<String(0,60):"">', 
+                        'surname<String(0,60):"">',
+                        'firstName<String(0,60):"">',
+                        'title<Title<dataType:String(20)>:"Mr":Mr|Ms|Miss|Doctor|Professor|PHD|Ing.>',
+                        'id<unsigned int>',                        
+                        'fullName<String::=((this.firstName ? this.firstName + " " : "") + (this.surname ? this.surname + " " : "") + (this.name ? this.name : "")).trim()>',
+                        'salary<unsigned int:250000>',
+                        'category=6',
+                        'hired<date:"2020-10-01">', 
+                        //'password<SereniX.types.Password<name:'StrongPassword', namePropertyName:'fullName'>(12,18)>', //the property password of type password with min length equals to 12 and max length equals to 18
+                        //'password<SereniX.types.Password(12,18)>', //the property password of type password with min length equals to 12 and max length equals to 18
+                        'email<email(10,25)>',
+                        'job<String(0,60):"">',
+                        'qualifiedName<String::=this.getFullName() + (this.title ? ", " + this.title : "") + (this.job ? ": " + this.job : "")>',
+                        'bilingual<boolean:0>',
+                        'addresses<String(5, 200){1, 5}>', //the property addresses an array of 1 to 5 strings. Each string (item) with minimum length of 5 characters and maximum length of 200 characters
+                        'ipv4<byte{4}>', //the property ipv4  of type array of 4 bytes,
+                        'ip<ipv4>',
+                        'manager<hr.Manager?:>',
+                        'comment<String>'
+                    ]);
+                    
+            var e = new E({ name: 'NJIOMO', category: 10 });
+            try {
+                e.setName('KAMGA').setHired(new Date('2018-08-01')).setFirstName('Marc Olivier').setJob("Senior Conultant").setEchelon(11);
+            } catch (ex) {
+                output.innerHTML += "<br/>Exception in class hr.Employee<br/>";
+                output.innerHTML += "<br/>==============================<br/><br/>";
+                output.innerHTML += "<br/>" + ex.toString() + "<br/><br/>";
+            }
+            
+            try {
+                e.setTitle('teacher');
+            } catch (ex) {
+                output.innerHTML += "<br/>Exception in class hr.Employee<br/>";
+                output.innerHTML += "<br/>==============================<br/><br/>";
+                output.innerHTML += "<br/>" + ex.toString() + "<br/><br/>";
+            }
+            
+            try {
+                e.job = '****************************************** ***** teacher *********************';
+            } catch (ex) {
+                output.innerHTML += "<br/>Exception in class hr.Employee<br/>";
+                output.innerHTML += "<br/>==============================<br/><br/>";
+                output.innerHTML += "<br/>" + ex.toString() + "<br/><br/>";
+            }
+            
+            e.setTitle('Ing.');
+            
+            e.email = 'kamga_marco@yahoo.com';
+            
+            output.innerHTML += "<br/>New title: " + e.title + "<br/><br/>";
+            
+            
+            output.innerHTML += ("<br/>Employee class: " + E.getClassFullName()) + '<br/>';
+            
+            output.innerHTML += "Qualified name: " + e.getQualifiedName();
+            
+            e.echelon = 7;
+            try {
+                e.password = 'gvy#4bhjAtBZ95_@1';
+            } catch (ex) {
+                console.error(ex);
+            }
+            try {
+                e.password = 'gvy#4';
+            } catch (ex) {
+                console.error(ex);
+            }
+            
+            var M = SereniX.Class(
+                    'hr.Manager', 
+                    'hr.Employee', 
+                    [
+                        'class<String:junior:junior|experienced|senior|general manager>',
+                        'collaborators<hr.Employee+>',
+                        'projects<Object{0,}>',
+                        'keys<Array:[1, 2, 3]>'
+                    ]
+            );
+            
+            
+            var v = new IntegerValue();
+            
+            v.setType("unsigned byte");
+            v.setValue(255);
+            
+            var b1 = new IntegerValue("byte");
+            
+            b1.setValue(-100);
+            
+            b1.setType("short");
+            
+            var i = new IntegerValue(458000);
+            
+            i.setType("byte");
+            
+            var byte = new SereniX.types.Byte('0x7f');
+            
+            output.innerHTML += ("<br/>Byte('0x7f'): " + byte.value) + '<br/>';
+            
+            var ub = new SereniX.types.UnsignedByte('0xfF');
+            
+            output.innerHTML += ("<br/>UnsignedByte('0xfF'): " + ub.value) + '<br/>';
+            
+            var si = new IntegerValue("458000","long");
+            
+            try {                
+                si = new IntegerValue("458000");
+            } catch (ex) {
+                console.error(ex);
+            }
+            
+            
+            
+            var dt = stringToTime("23:00:45");
+            
+            output.innerHTML += (dt.toString()) + '<br/>';
+            
+            var b2 = new SereniX.types.Integer(-45, 'byte');
+            
+            try {
+                var i2 = new SereniX.types.Integer(458000.356);
+            } catch (e) {
+                console.error(e);
+            }
+            
+            var i3 = new SereniX.types.Integer();
+            
+            i3.setValue(458000.356, true);
+            
+            console.log("i3 = " + i3);
+
+            
+            
+            var C = SereniX.Class(
+                    'hr.Company', 
+                    [                        
+                        'id<unsigned int>',
+                        'name<String(60):"">',                       
+                        'location<Address<String(3), String(50), unsigned int, String(30,60)>>',
+                        'ipv4<byte{4}>',                        
+                        'manager<hr.Manager?:>',
+                        'token1<String(10+):"">',
+                        'token2<String(>=10):"Double quote \\"">',
+                        'token3<String(> 9):"Double quote "", et simple quote \'">',
+                        'token4<String(10,):"">',
+                        "token5<String(10,):'single quote '' test'>"
+                    ]);
+            var re = /^(?:"((?:""|\\"|[^"])*)")$/;        
+            var str = '"Double quote "", et simple quote \'"', m;   
+            if ((m = str.match(re)) !== null) {
+                console.log("Match: " + m[0]);
+            }
+            
+            var triState = new SereniX.types.Enum({
+                /** The true value */
+                TRUE: 1,
+                FALSE: -1,
+                /** @type {boolean} */
+                MAYBE: true
+            }); 
+            
+            
+            
+        </script>
+    </body>
+</html>
