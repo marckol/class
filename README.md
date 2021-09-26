@@ -42,6 +42,9 @@ Two main syntaxes are possible:
 ### Methods
 
 ## Examples
+
+### String short syntax for the definition of properties
+
 ```
 Klass.Class(
     'hr.School',
@@ -141,6 +144,245 @@ var M = Klass.Class(
 	]
 );
 ```
+
+### Object for description of properties
+
+```
+var Component = Klass.Class({
+    name : "SereniX.ui.Component",   
+    /**
+     * 
+     * @param {Object} comp
+     * @returns {undefined}
+     */
+    construct:function(comp) {
+        function _set(comp, self) {
+            var e = comp.id||comp.Id||comp.ID||comp.elementId||comp.ElementId
+                    ||comp.element||comp.Element||comp.componentId
+                    ||comp.component||comp.containerId||comp.container||"";
+            if (e instanceof String) {
+                e = e.valueOf();
+            }
+            if (typeof e === 'string' && e) {
+                self.setId(e);
+                self.getElement();
+            } else if (isDOMElt(e)) {
+                self._element__ = e;
+                self.__id_ = e.id||"";
+                if (!e.parentNode) {
+                    document.getElementsByTagName("body")[0].appendChild(e);
+                }
+                var style, tag = (e.tagName||e.nodeName).toLowerCase(), pos = comp.stylePosition||comp.cssPosition||comp.stylePos||comp.cssPos||comp.style;
+                if (['absolute', 'relative', 'static', 'flex'].indexOf(pos) >= 0) {
+                    e.style.position = pos;
+                } else if (pos !== 'default' && ['input', 'label', 'a', 'button', 'table', 'img'].indexOf(tag) < 0 && !(style = cssStyle(e)) || style.position !== 'absolute') {
+                    e.style.position = SERENIX_DEFAULT_CONTAINER_STYLE_POSITION;
+                }
+                e.__component__ = self;
+                Object.defineProperty(e, 'component', { get : function() {return this.__component__;} });
+            }
+        }
+        if (comp instanceof String) {
+            comp = comp.valueOf();
+        }
+        if (isDOMElt(comp)) {
+            this._element__ = comp;
+            this.__id_ = comp.id||"";
+            var style, tag = (comp.tagName||comp.nodeName).toLowerCase();
+            if (['input', 'label', 'a', 'button', 'table', 'img'].indexOf(tag) < 0 
+                    && (!(style = cssStyle(comp)) || style.position !== 'absolute')) {
+                comp.style.position = SERENIX_DEFAULT_CONTAINER_STYLE_POSITION;
+            }
+            comp.__component__ = this;
+            Object.defineProperty(comp, 'component', { get : function() {return this.__component__;} , configurable: true});
+        } else if (comp && typeof comp === 'object') {
+            _set(comp, this);
+            this.setName(comp.name||comp.Name||comp.NAME||"");
+            this.setCaption(comp.caption||comp.Caption||comp.CAPTION
+                    ||comp.label||comp.Label||comp.LABEL||comp.libelle||"");
+            if (!this.__caption_) {
+                var html = comp.html;
+                if (isPlainObj(html)) {
+                    var caption = html.label||html.caption||html.title||html.text;
+                    if (typeof caption === 'string') {
+                        this.__caption_ = { html: true, text : caption };
+                    }
+                }
+            }
+            if (typeof this.setPlaceholder === 'function') {
+                var placeholder = comp.placeholder||comp.Placheholder;
+                if (placeholder instanceof String) {
+                    placeholder = placeholder.valueOf();
+                }
+                if (placeholder) {
+                    this.setPlaceholder(placeholder);
+                }
+            }
+            if (typeof this.setTooltip === 'function') {
+                this.setTooltip(comp.tooltip||comp.Tooltip||comp.TOOLTIP
+                        ||comp.tooltipText||comp.tooltip_text||comp.tooltiptext||"");
+            }
+            if (!(this instanceof SereniX.ui.Container || this instanceof SereniX.ui.CField)) {
+                this.setInputType(comp.inputType||comp.InputType
+                        ||comp.contentType||comp.ContentType||comp.type||comp.Type||"textField");
+            }
+            if (typeof this.setDataType === 'function') {
+                var dataType = comp.dataType||comp.datatype;
+                if (typeof dataType === 'string' && dataType) {
+                    this.setDataType(dataType);
+                }
+            }
+            var v = comp.maxWidth||comp.MaxWidth, vp;
+            if (v instanceof Number || v instanceof String) {
+                v = v.valueOf();
+            }
+            if (typeof v === 'string') {
+                v = v.toLowerCase();
+            }
+            if (v === 'viewport') {
+                vp = new Viewport();
+                v = vp.width;
+            } else if (v === 'container') {
+                throw new Error("Not yet supported");
+            } else if (typeof v === 'string') {
+                v = toPx(v);
+            } else if (v !== undefined && (typeof v !== 'number' || v <= 0)) {                
+                throw new Error("Incorrect max width: " + (comp.maxWidth||comp.MaxWidth));
+            }
+            this.__maxWidth_ = v;
+            v = comp.maxHeight||comp.MaxHeight;
+            if (v instanceof Number || v instanceof String) {
+                v = v.valueOf();
+            }
+            if (typeof v === 'string') {
+                v = v.toLowerCase();
+            }
+            if (v === 'viewport') {
+                vp = vp||(new Viewport());
+                v = vp.height;
+            } else if (v === 'container') {
+                throw new Error("Not yet supported");
+            } else if (typeof v === 'string') {
+                v = toPx(v);
+            } else if (v !== undefined && (typeof v !== 'number' || v <= 0)) {                
+                throw new Error("Incorrect max width: " + (comp.maxWidth||comp.MaxWidth));
+            }
+            this.__maxHeight_ = v;
+        } else if (comp && typeof comp === 'string') {
+            _set(comp, this);
+        } else {
+            this.__id_ = "";
+            this.__name_ = "";
+            this.__caption_ = "";
+            this.__tooltip_ = "";
+            this.__inputType_ = "textField";
+        }
+    },
+    properties: [
+        { name: "id", type: "string" },
+        { name: "name", type: "string" },
+        { name: "minWidth", type: "unsigned int" },
+        { name: "minHeight", type: "unsigned int" },
+        { name: "maxWidth", type: "unsigned int", nullable: true },
+        { name: "maxHeight", type: "unsigned int", nullable: true },
+        { name: "caption", type: "string|function|SereniX.TextPattern|Object" },
+        { name: "tooltip", type: "string|function|SereniX.TextPattern|Object" },
+        { name: "parent", type: "SereniX.ui.Container|SereniX.ui.CField" }
+    ],
+    methods : {
+        getType: function() {
+            return 'component';
+        },
+        isBande : function() {
+            return false;
+        },
+        
+        /**
+         * 
+         * @returns {String}
+         */
+        getId:function() {
+            return this.__id_;
+        },
+        /**
+         * 
+         * @param {String} id
+         * @returns {SereniX.ui.Component}
+         */
+        setId: function(id) {
+            if (id instanceof String) {
+                id = id.valueOf();
+            }
+            if (typeof id !== 'string') {
+                throw new Error("Incorrect argument");
+            }
+            this.__id_ = id;
+            if (this._element__) {
+                this._element__.id = id;
+            }
+            return this;
+        },
+        /**
+         * 
+         * @returns {String}
+         */
+        getInputType:function() {
+            return this.__inputType_||"textField";
+        },
+        /**
+         * 
+         * @param {String} inputType
+         * @returns {SereniX.ui.Component}
+         */
+        setInputType:function(inputType) {
+            this.__inputType_ = inputType;
+            return this;
+        },
+        /**
+         * 
+         * @returns {String}
+         */
+        getName : function() {
+            return this.__name_||"";
+        },
+        /**
+         * 
+         * @param {String} name
+         * @returns {SereniX.ui.Component}
+         */
+        setName : function(name) {
+            if (name instanceof String) name = name.valueOf();
+            if (typeof name !== 'string') {
+                throw new Error("[SereniX.ui.Component]: String argument expected");
+            }
+            this.__name_ = name;
+            return this;
+        },
+        /**
+         * 
+         * @returns {String}
+         */
+        getCaption : function() {
+            return this.__caption_;
+        },
+        /**
+         * 
+         * @param {type} caption
+         * @returns {SereniX.ui.Component}
+         */
+        setCaption : function(caption) {
+            var type = typeof caption;
+            if (type !== 'string' && type !== 'function' 
+                    && !(type === 'object' && typeof caption.getCaption === 'function')) {
+                throw new Error("[SereniX.ui.Component]: String argument expected");
+            }
+            this.__caption_ = caption;
+            return this;
+        }
+	}
+}
+```
+
 ## License
 
 The MIT License © 2021 Marc KAMGA Olivier <kamga_marco@yahoo.com;mkamga.olivier@gmail.com>. See [LICENSE.md](LICENSE.md) for full notice.
