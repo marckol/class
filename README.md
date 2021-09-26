@@ -42,3 +42,6 @@ Two main syntaxes are possible:
 ### Methods
 
 
+## License
+
+The MIT License © 2021 Marc KAMGA Olivier <kamga_marco@yahoo.com;mkamga.olivier@gmail.com>. See [LICENSE.md](LICENSE.md) for full notice.
