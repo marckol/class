@@ -6,7 +6,7 @@
 
 ```
 Klass.Class({
-    name: 'hr.Employee',
+    name: 'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
     construct : function() {
     },
     properties : [
@@ -47,7 +47,7 @@ Two main syntaxes are possible:
 
 ```
 Klass.Class(
-    'hr.School',
+    'hr.School', //full class name : the namespace is 'hr' and the (simple) name 'School'
     [
         "name<String(0, 60)>",
         "address<SereniX.types.Object({name: 'Address', fields:{quarter:'string(5,50)', street: 'unsigned int', town: 'string(0,60)'}})>"
@@ -57,7 +57,7 @@ Klass.Class(
 
 ```
 var E = Klass.Class(
-        'hr.Employee', 
+        'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
         [ 
             'password<SereniX.types.Password({name:"StrongPassword", nameField:"fullName",minLength:12,maxLength:18})>', //the property password of type password with min length equals to 12 and max length equals to 18
             'echelon<unsigned int:3:1..10>',
@@ -83,7 +83,7 @@ var E = Klass.Class(
             'comment<String>'
         ]);
         
-var e = new E({ name: 'NJIOMO', category: 10 });
+var e = new E({ name: 'NJIOMO', category: 10 }); //Instantiation of the class hr.Employee setted to variable E
 try {
     e.setName('KAMGA').setHired(new Date('2018-08-01')).setFirstName('Marc Olivier').setJob("Senior Conultant").setEchelon(11);
 } catch (ex) {
@@ -135,7 +135,7 @@ try {
 ```
 var M = Klass.Class(
 	'hr.Manager', 
-	'hr.Employee', 
+	'hr.Employee', //parent or super class : the class hr.Manager is a sub-class of hr.Employee
 	[
 		'class<String:junior:junior|experienced|senior|general manager>',
 		'collaborators<hr.Employee+>',
