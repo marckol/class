@@ -78,7 +78,7 @@ var E = Klass.Class(
             'bilingual<boolean:0>',
             'addresses<String(5, 200){1, 5}>', //the property addresses an array of 1 to 5 strings. Each string (item) with minimum length of 5 characters and maximum length of 200 characters
             'ipv4<byte{4}>', //the property ipv4  of type array of 4 bytes,
-            'ip<ipv4>',
+            'ip<ipv4>', //the property ip is of string type: 'ipv4' is a predefined string type.
             'manager<hr.Manager?:>',
             'comment<String>'
         ]);
