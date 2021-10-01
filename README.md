@@ -6,7 +6,15 @@
 
 This library can be used when you want the enterprise features and tools of a language like Java, but you need your code to execute in a JavaScript environment.
 
-You need no particular installation as it's needed for typescript. Just a browser and load serenix_class_base.js.
+### Requirements
+You need no particular installation as it's needed for typescript. Just a browser and load:
+
+  - serenix_object.js
+  - xregexpall.js
+  - serenix_parser_statements.js
+  - serenix_statement_parser.js
+  - serenix_types.js
+  - serenix_class_base.js.
 
 ## Syntax
 
