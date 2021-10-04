@@ -27,6 +27,10 @@ You need no particular installation as it's needed for typescript. Just a browse
   - Each property has a getter. If it's not defined in the methods, it's automatically created. If the property is a boolean, the name of the getter starts with 'is'.Otherwise, it starts with 'get'.
   - Each property (not read-only) has a setter with name starting with 'set'. If it's not defined in the methods, it's automatically created. When automatically created, the setter returns the object to allow method or field chaining. 
 
+## JSON string
+
+To get correct JSON string of an object name e for example, use `e.toJSONString()` statement instead of JSON.stringify(e). JSON.stringify will not produce correct field name.
+
 ## Syntax
 
 ```
