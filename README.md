@@ -109,14 +109,12 @@ var E = Klass.Class(
             'salary<unsigned int:250000>', //
             'category=6', //category accepts any type and it's default value is 6.
             'hired<date:"2020-10-01">', //hired is of Date type with October 1st, 2020 as default value
-            //'password<SereniX.types.Password<name:'StrongPassword', namePropertyName:'fullName'>(12,18)>', //the property password of type password with min length equals to 12 and max length equals to 18
-            //'password<SereniX.types.Password(12,18)>', //the property password of type password with min length equals to 12 and max length equals to 18
             'email<email(10,25)>',
             'job<String(0,60):"">',
             'qualifiedName<String::=this.getFullName() + (this.title ? ", " + this.title : "") + (this.job ? ": " + this.job : "")>',
             'bilingual<boolean:0>',
             'addresses<String(5, 200){1, 5}>', //the property addresses an array of 1 to 5 strings. Each string (item) with minimum length of 5 characters and maximum length of 200 characters
-            'ipv4<byte{4}>', //the property ipv4  of type array of 4 bytes,
+            'ipv4<unsigned byte{4}>', //the property ipv4  of type array of 4 bytes,
             'ip<ipv4>', //the property ip is of string type: 'ipv4' is a predefined string type.
             'manager<hr.Manager?:>',
             'comment<String>'
