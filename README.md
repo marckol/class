@@ -27,6 +27,46 @@ You need no particular installation as it's needed for typescript. Just a browse
   - Each property has a getter. If it's not defined in the methods, it's automatically created. If the property is a boolean, the name of the getter starts with 'is'.Otherwise, it starts with 'get'.
   - Each property (not read-only) has a setter with name starting with 'set'. If it's not defined in the methods, it's automatically created. When automatically created, the setter returns the object to allow method or field chaining. 
 
+## Main predefined types: 
+
+### Number
+  - **bit**: 0 or 1
+  - **byte**: -128 to 127
+  - **unsigned byte**: 0 to 255
+  - **short**: -32768 to 32767
+  - **unsigned short**: 0 to 65535
+  - **int**: -2147483648 to 2147483647
+  - **unsigned int**: 0 to 4294967295
+  - **long**: -4294967296 to 4294967295
+  - **unsigned long**: 0 to 9223372036854775807
+  - **long long**: -9223372036854770808 to 9223372036854775807,
+  - **int64**: -9223372036854770808 to 9223372036854775807
+  - **unsigned long long**: 0 to 18446744073709551615,
+  - **uint64**: 0 to 18446744073709551615
+  - **float**: 3.4e-38 to 3.4e+38
+  - **number** : 
+  - **double**: 1.7e-308 to 1.7e+308
+  - **long double**: 1.7e-308 to 1.7e+308
+  - **unsigned float**: 0 to 6.8e+38
+  - **unsigned double**: 0 to 3.14e+308
+  
+### String
+  - **string**  
+  - **password**
+  - **tel**
+  - **url**
+  - **email**
+  - **rfc822_email** 
+  - **es6_email**
+
+### Boolean
+
+For boolean type **boolean** or **bool** can be used
+
+### any
+
+Use **any** for loosed typing. If a property has not defined data type, it's data type is setted to **any**.
+
 ## JSON string
 
 To get correct JSON string of an object name e for example, use `e.toJSONString()` statement instead of JSON.stringify(e). JSON.stringify will not produce correct field name.
