@@ -95,15 +95,15 @@ var E = Klass.Class(
         [ 
             'password<SereniX.types.Password({name:"StrongPassword", nameField:"fullName",minLength:12,maxLength:18})>', //the property password of type password with min length equals to 12 and max length equals to 18
             'echelon<unsigned int:3:1..10>',
-            'name<String(0,60):"">', 
-            'surname<String(0,60):"">',
-            'firstName<String(0,60):"">',
+            'name<String(0,60):"">', //name is a string with length in the range 0 to 60 with empty string as default value
+            'surname<String(0,60):"">', //surname is a string with length in the range 0 to 60 with empty string as default value
+            'firstName<String(0,60):"">', //firstname is a string with length in the range 0 to 60 with empty string as default value
             'title<Title<dataType:String(20)>:"Mr":Mr|Ms|Miss|Doctor|Professor|PHD|Ing.>',
-            'id<unsigned int>',                        
-            'fullName<String::=((this.firstName ? this.firstName + " " : "") + (this.surname ? this.surname + " " : "") + (this.name ? this.name : "")).trim()>',
-            'salary<unsigned int:250000>',
-            'category=6',
-            'hired<date:"2020-10-01">', 
+            'id<unsigned int>', //id property accepts only unsigned integer                        
+            'fullName<String::=((this.firstName ? this.firstName + " " : "") + (this.surname ? this.surname + " " : "") + (this.name ? this.name : "")).trim()>', //fullName it's a read-only property with a formula
+            'salary<unsigned int:250000>', //
+            'category=6', //category accepts any type and it's default value is 6.
+            'hired<date:"2020-10-01">', //hired is of Date type with October 1st, 2020 as default value
             //'password<SereniX.types.Password<name:'StrongPassword', namePropertyName:'fullName'>(12,18)>', //the property password of type password with min length equals to 12 and max length equals to 18
             //'password<SereniX.types.Password(12,18)>', //the property password of type password with min length equals to 12 and max length equals to 18
             'email<email(10,25)>',
