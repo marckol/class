@@ -8,7 +8,7 @@
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:a
+ * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
@@ -43,8 +43,6 @@ if (typeof globalNS ==="undefined") {
     } else {
         globalNS = window;
     }
-} else if (typeof window ==="undefined") {
-    window=globalNS;
 }
 
 if (!globalNS.isArray) {
@@ -122,6 +120,8 @@ if (!globalNS.toBool) {
         }
     };
 }
+//import SereniX.types.Array : require serenix_types.js loaded
+var TArray =  SereniX.types.Array;
 
 
 
@@ -4353,14 +4353,15 @@ Klass.buildClass = function(Cls, md, classExclusions, instanceExclusions, parent
                 "getParamTypesCheck", "getConstructor", "addProperties", "copyProps",
                 "addProps", "copyPropsPreExist", "createDefaultGetter", "createDefaultSetter",
                 "doInherit", "ext", "getAccessors", "metadataFromArgs", 
-                "createException", "Exception", "exception", "createError"
+                "createException", "Exception", "exception", "createError",
+                "__definedProperties___"
             ];
         } else if (md.construct) {
             parentClassExclusions = [ '__CONSTRUCTOR__', 'constructName', '__CONSTRUCTOR_NAME__', 
                 "__CLASS__", "__CLASS_NAME__", "__SINCE__", 
                 "__VERSION__", "__AUTHOR__", "__NAME__",
                 "__NAMESPACE__", "__NAMESPACE_NAME__", "__NAMESPACE_NAME___",
-                "__namespace__", "_namespace_", "__inherit__" ];
+                "__namespace__", "_namespace_", "__inherit__", "__definedProperties___" ];
         }
         //the class inherit properties, fields and methods from the parent class
         Cls = K.extend(Cls, parentClass||K, parentClassExclusions, classAttribs);
@@ -4404,7 +4405,8 @@ Klass.buildClass = function(Cls, md, classExclusions, instanceExclusions, parent
         "Namespace", "className", "classname",
         "construct", "__construct", "Construct", "Constructor", 
         "constructor", "destruct", "__destruct", "Destruct", "Destructor", 
-        "destructor", "fields", "Fields", "constructName"
+        "destructor", "fields", "Fields", "constructName",
+        "__definedAliases___", "__definedProperties___"
     ]);
     var constructorName = md.constructName;
     if (constructorName) {
@@ -4418,6 +4420,26 @@ Klass.buildClass = function(Cls, md, classExclusions, instanceExclusions, parent
     if (!isArray(classExclusions)) {
         classExclusions = [];
     }   
+    Cls.prototype.toJSONString = function() {
+        var str = "";
+        var keys = Object.keys(this), v, self = this;
+        keys.forEach(function(k, i) {
+            if ((v = self[k]) != undefined) {
+                str += (str ? "," : "") 
+                    + '"'
+                    + (/^__[a-z][a-zA-Z$_]*_$/.test(k) ? k.substring(2, k.length - 1) : k) 
+                    +  '"'
+                    + ":" ;
+                if (typeof v === 'object' && v) {
+                    str += typeof v.toJSONString === 'function'? v.toJSONString() : JSON.stringify(v);
+                } else {
+                    str += JSON.stringify(v);
+                }
+            }
+        });
+        str = "{" + str + "}";
+        return str;
+    };
     return Cls;
 };
 
@@ -4998,6 +5020,12 @@ Klass.addNProperty = function(obj, pname, prop, accessors, entry, Cls) {
     if (arguments.length < 5) {
         entry = true;
     }
+    if (pname === 'ipv4') {
+        console.log('ipv4');
+    }
+    if (pname === 'collaborators') {
+        console.log('collaborators');
+    }
     if (isString(prop)) {
         var readOnly, re = /^\s*read[-]?only\s*:\s*/i;
         if (readOnly= re.exec(prop)) {
@@ -5229,6 +5257,16 @@ Klass.addNProperty = function(obj, pname, prop, accessors, entry, Cls) {
                 writable : false,
                 value : val
             };
+        desc.formula = prop.formula;
+        if (typeof prop.stringFormula) {
+            desc.stringFormula = prop.stringFormula;
+        }else if (typeof prop.formula === 'function') {
+            desc.stringFormula = prop.formula.toString();
+        } else if (typeof formula === 'string') {
+            desc.stringFormula = formula;
+        }
+        desc.type = prop.type;
+        
         K.defineProperty(obj, pname, desc); 
         if (!func) {
             function _g() {
@@ -5543,7 +5581,8 @@ Klass.EXTENSION_EXCLUSIONS = [
     "__SINCE__", "__VERSION__", "__AUTHOR__", "__SEE__",
     "__COMMENT__", "__DESCRIPTION__", "__PURPOSE__",
     "SINCE", "VERSION", "AUTHOR", "SEE",
-    "COMMENT", "DESCRIPTION", "PURPOSE"
+    "COMMENT", "DESCRIPTION", "PURPOSE",
+    "__definedProperties___", "__definedAliases___"
 ];
 /**
  * 
@@ -5561,6 +5600,13 @@ Klass.CLASS_PARAMETER_TYPE_SYMBOLS = [ '@'];
 Klass.extend = function(Cls, Parent, parentClassExclusions, classAttribs) {
     
     Cls.prototype = new Parent();
+    
+    var defProps = {}, ps = Cls.prototype.__definedProperties___;
+    for (var n in ps) {
+        defProps[n] = ps[n];
+    }
+    
+    Cls.prototype.__definedProperties___ = defProps;
     
     var exclusions = this.EXTENSION_EXCLUSIONS||[];
     
@@ -5631,7 +5677,10 @@ Klass.extend = function(Cls, Parent, parentClassExclusions, classAttribs) {
         co.__definedAliases___ = defAliases;
         for (var name in sco) {
             if (exclusions.indexOf(name) < 0) {
-                if (name === 'choices') {
+                if (name === 'collaborators') {
+                    name.toString();
+                }
+                if (name === 'choices' || name === 'collaborators') {
                     name.toString();
                 }
                 if (name === 'constructor') {
@@ -6550,7 +6599,6 @@ Klass.createClass = function() {
     //is binded/added to SereniX namespace Klass is used.
     var K = globalNS.SereniX && SereniX.Klass ? SereniX.Klass : Klass;
     
-    
           
     function ext(f, md) {
         var Cls = f, namespace;
@@ -6990,6 +7038,11 @@ var KlassUtils = extObj(
         {
         normalizeProp:function(prop) {
             if (typeof prop === 'string') {
+                if (prop === 'projects<Object{0,}>'
+                    || prop === 'category=6'
+                   ) {
+                    console.log(prop);
+                }
                 prop = this.getPropFromString(prop);
             } else if (typeof prop === 'undefined' || prop === null) {
                 throw new Error("Undefined or null property");
@@ -7908,6 +7961,18 @@ var KlassUtils = extObj(
                 }       
                 return __CHECK_TYPE__;
             }
+            if (!__CHECK_TYPE__) {
+                function __CHECK_TYPE__(v) {
+                    if (v == undefined) return true;
+                    if (!SereniX.KlassUtils.isTypeOf(v, __CHECK_TYPE__.type)) {
+                        incorrect(v); //throw an eception
+                    }
+                    return true;
+                }
+                __CHECK_TYPE__.type  = type||SereniX.types.AnyType.getInstance();
+            }
+            return __CHECK_TYPE__;
+            
         },
 
         /**
@@ -8269,6 +8334,29 @@ var KlassUtils = extObj(
             }
             return opts;
         },
+        getType : function(typ) {            
+            if (typeof typ === 'string') {                
+                try {
+                    return Klass.forname(typ);
+                } catch (err) {}
+                try {
+                    return SereniX.types.Type.forname(typ);
+                } catch (err) {}
+                var ltyp = typ.toLowerCase();
+                if (ltyp === 'any') {
+                    return SereniX.types.AnyType.getInstance();
+                } else if (['*', '+', '?', '#'].indexOf(ltyp) >= 0) {
+                    return WildcardType.getInstance(typ);
+                }
+                if (SERENIX_NUMBER_TYPES.indexOf(typ) >= 0 || SERENIX_STRING_TYPES.indexOf(typ) >= 0) return typ;
+            } else if (typeof typ === 'function' || typ instanceof Function || typ instanceof SereniX.types.Type) return typ;
+            else if (isPlainObj(typ)) {
+                return SereniX.types.Type.getInstance(typ);
+            } else {
+                throw new Error("Incorrect type");
+            }
+            return SereniX.types.Type.getInstance(typ);
+        },
         /**
          * 
          * @param {String} type
@@ -8445,8 +8533,10 @@ var KlassUtils = extObj(
                             args[field[0]] = _getType(this, field[1], Cls);
                         }
                     } else {
-                        var nameField = coalesceFieldName(field, ['name', 'Name', 'fieldName', 'FieldName', 'propertyName', 'PropertyName', 'field', 'Field', 'property', 'Property']),
-                            typeField = coalesceFieldName(field, ['type', 'Type', 'datatype', 'dataType', 'Datatype', 'DataType', 'typeName', 'TypeName', 'typeName', 'TypeName' ]);
+                        //function oval returns the first valid value of the 
+                        //given fields. Requires library serenix_object.js
+                        var nameField = oval(field, ['name', 'fieldName', 'propertyName', 'field', 'property']),
+                            typeField = oval(field, ['type', 'dataType', 'typeName' ], /*lower*/true);
                         for (var i = 0; i < n; i++) {
                             field = fields[i];
                             args[field[nameField]] = _getType(this, field[typeField], Cls);
@@ -8673,7 +8763,10 @@ var KlassUtils = extObj(
                         obj.dataType = t;
                     }
                     return t;
-                } else {
+                } else if (t instanceof SereniX.types.SType) {
+                    //added on Sept 29, 2021
+                    console.log("Already of type SereniX.types.SType\n" + JSON.stringify(t));
+                } else { 
                     var st;
                     if ((st = this.getSTypeDef(obj))) {
                         st.type = t;
@@ -8913,15 +9006,27 @@ var KlassUtils = extObj(
 
                 }
             }
-            var K = SereniX.KlassUtils, cmin = K.getCardMin(prop), cmax = K.getCardMax(prop);
+            var K = SereniX.KlassUtils,
+                cmin = K.getCardMin(prop),
+                cmax = K.getCardMax(prop);
             if (typeof cmin === 'undefined' && typeof cmax === 'undefined') {
+                if (md && md.itemType) {
+                    return new TArray(md);
+                }
                 return md ? new SereniX.types.SType(md) : type;
-            }  else {
-                if (!md) return new SereniX.types.SType({ type: type, cardMin: cmin, cardMax: cmax });
+            }  else if (cmax > 1 || cmax === undefined || cmax === null){
+                if (!md) return new TArray({ itemType: type, cardMin: cmin, cardMax: cmax });
                 md.cardMin = cmin;
                 md.cardMax = cmax;
-                return new SereniX.types.SType(md);
-            }        
+                return new TArray(md);
+            } else {
+                if (!md) {
+                    
+                } else {
+                    
+                }
+                throw new Error("Not yet supported");
+            }       
         }, //end getPropertyType function
         getDefaultValue:  function(prop) {
             var v = prop["defaultValue"];
@@ -9431,7 +9536,9 @@ var KlassUtils = extObj(
                             if (i < n) {
                                 ch = tstring[i];
                                 if (ch === '{') {
-                                    ofs = i = this.readOccurences(typ, tstring, i, n);
+                                    var o_ = this.readOccurences(typ, tstring, i, n);
+                                    ofs = i = o_[1];
+                                    typ = o_[0];
                                     sized = 2;
                                 } else if (['*', '+', '?', '#'].indexOf(ch) >= 0) {
                                     ofs = i = this.setCardinality(type, ch);
@@ -9455,9 +9562,13 @@ var KlassUtils = extObj(
                             if ((ch === '"' || ch === "'") && (state === UNION || state === 0)) {
                                 (tvalues||(tvalues=[])).push(readString());
                                 state = TYPE_VALUE;
-                            } else if (/\d/.test(ch) && (state === UNION || state === 0)) {
-                                (tvalues||(tvalues=[])).push(readNumber());
-                                state = TYPE_VALUE;
+                            } else if (/\d/.test(ch) ) {
+                                if ((state === UNION || (state === 0 && ofs === i))) {
+                                    (tvalues||(tvalues=[])).push(readNumber());
+                                    state = TYPE_VALUE;
+                                } else {
+                                    i++;
+                                }
                             } else if (stops.indexOf(ch) >= 0) {
                                 stop = true;
                                 i = this.skipSpaces(tstring, i + 1, n);
@@ -9750,6 +9861,7 @@ var KlassUtils = extObj(
          * @returns {Object}
          */
         _getSizedTypeProp: function(part, strProp, key, ctx, defaultValue) {
+            var _this = this;
             function newType(name, key, _this, defVal) {
                 if (!_this.isValidTypeName(name)) {
                     throw "Invalid type name: '" + name + '\'';
@@ -9841,7 +9953,11 @@ var KlassUtils = extObj(
                 } else        
                     throw new Error("Incorrect occurences number of elements");
                 if ( (max === Number.POSITIVE_INFINITY) || (typeof max === 'undefined') || (max === null) || min > 1 || max > 1 ) {
-                    prop = { type: "Array", itemType: prop, cardMin: min, cardMax : max, defaultValue: [], nullable: false };
+                    prop = { type: new SereniX.types.Array({
+                            itemType: _this.getTypeFromObj(prop),
+                            cardMin: min,
+                            cardMax : max 
+                        }), defaultValue: [], nullable: false };
                 } else {
                     if (min === 0) {
                         prop.nullable = true;
@@ -10003,6 +10119,9 @@ var KlassUtils = extObj(
                     prop[minLabel] = num;
                 } else if (ch === close) {
                     prop[maxLabel] = num;
+                    if (prop[minLabel] === undefined) {
+                        prop[minLabel] = num;
+                    }
                 }
             } else if (ch === ',') {
                 i = this.skipSpaces(strProp, i + 1, n);
@@ -10291,14 +10410,24 @@ var KlassUtils = extObj(
         },
         /**
          * 
-         * @param {type} prop
+         * @param {Object} prop
          * @param {type} strProp
          * @param {type} i
          * @param {type} n
-         * @returns {KlassUtils@call;skipSpaces}
+         * @returns {Number}
          */
         readOccurences: function(prop, strProp, i, n) {
-            return this.__readSize('}', 'cardMin', 'cardMax',prop, strProp, i + 1, n );
+            var p = this.__readSize('}', 'cardMin', 'cardMax',prop, strProp, i + 1, n );
+            if (prop.cardMin > 1 || prop.cardMax === undefined || prop.cardMax === null || prop.cardMax > 1) {
+                var t = new SereniX.types.Array({ cardMin : prop.cardMin||0, cardMax : prop.cardMax, itemType: KlassUtils.getType(prop) });
+                try { delete type.cardMin; } catch(e) {};
+                try { delete type.cardMax; } catch(e) {};
+                prop = t;
+                t.syntax = "cardinality";
+            } else {
+                prop.nullable = type.cardMin === 0;
+            }
+            return [prop, p];
         },
 
         processCardinality: function(strProp, i, n, ctx, sized, cardinality, symbol, typeName, refType) {
@@ -10725,6 +10854,12 @@ KlassUtils.getPropFromString = function (strProp, offset, i, closer) {
             }
         }
         prop.name = strProp.substring(ofs, i);
+        if (prop.name === 'collaborators') {
+            console.log("prop.name => collaborators");
+        }
+        if (prop.name === 'projects') {
+            console.log("prop.name => projects");
+        }
         return _this.skipSpaces(strProp, i, n);
     }
     /**
@@ -10801,6 +10936,9 @@ KlassUtils.getPropFromString = function (strProp, offset, i, closer) {
             } else if (terminators && terminators.indexOf(ch) >= 0) {                
                 if (ofs < i) {
                     name = strProp.substring(ofs, i);
+                    if (name === 'collaborators') {
+                        console.log("name => collaborator");
+                    }
                     processModif(checkEnd);
                 }
                 checkVisibility(ch);
@@ -10832,6 +10970,19 @@ KlassUtils.getPropFromString = function (strProp, offset, i, closer) {
             return _this.skipSpaces(strProp, i + 1, n);
         }
         return i;
+    }
+    
+    function getSystemDefaultValueCalc(sval) {
+        var root, v;
+        var re = /^DEFAULT_VALUE_KEYWORDS(?:\.([a-zA-Z-]+)|\[\s*("[a-zA-Z-]+"|'[a-zA-Z-]+')\s*\])$/;
+        if (root = re.exec(sval)) {
+            v = DEFAULT_VALUE_KEYWORDS[root[1]||root[2]];
+            if (v) return v;
+            throw new Error("Incorrect system default value key: '" + sval + "'");
+        } else {
+            v = DEFAULT_VALUE_KEYWORDS[sval];
+        }
+        if (v) return v;
     }
     
     
@@ -10869,14 +11020,14 @@ KlassUtils.getPropFromString = function (strProp, offset, i, closer) {
             }
         }
         if (ch === '=') {
-            var sval = strProp.substring(this.skipSpaces(i + 1)).trim();
-            calc = DEFAULT_VALUE_KEYWORDS[sval];
-            if (typeof calc === 'function') {
-                prop.defaultValueCalc = calc();
+            var sval = strProp.substring(this.skipSpaces(strProp, i + 1, n)).trim();
+            if (typeof (calc = getSystemDefaultValueCalc(sval)) === 'function') {
+                prop.defaultValueCalc = calc;
             } else {
-                prop.defaultValue = this.stringToValue(sval);
+                prop.defaultValue = this.stringToValue(sval);                
             }
             i = n;
+            
         }
     } 
     if (i >=n) {
@@ -11092,15 +11243,21 @@ KlassUtils._getTypeObject = function (strProp, ofs, end, sized, ctx, cardinality
         return { "type": t };
     }
 };
-
+/**
+ * 
+ * @param {type} type
+ * @param {String} card Cardinality symbol
+ * @param {Object} property
+ * @returns {SereniX.types.Array|SereniX.types.Type|Object}
+ */
 KlassUtils.setCardinality = function(type, card, property) {
     if (typeof card === 'string') {
         var typ;
         switch (card) {
             case '+':
-                return { type: 'Array', itemType: type, cardMin: 0, cardMax:  Number.POSITIVE_INFINITY }; 
+                return new SereniX.types.Array({ itemType: type, cardMin: 0, cardMax:  Number.POSITIVE_INFINITY, symbol: '+', syntax: 'cardinality' }); 
             case '*':
-                return { type: 'Array', itemType: type, cardMin: 0, cardMax:  Number.POSITIVE_INFINITY }; 
+                return new SereniX.types.Array({ itemType: type, cardMin: 0, cardMax:  Number.POSITIVE_INFINITY, symbol: '+', syntax: 'cardinality' }); 
             case '?':
             case '#':
                 (property ? property : type={type: type}).nullable = card === '?';
@@ -11133,22 +11290,22 @@ KlassUtils.setCardinality = function(type, card, property) {
         min = this.getMin(card);
         max = this.getMax(card);
         if (max < 0) {
-            ma = Number.POSITIVE_INFINITY;
+            max = Number.POSITIVE_INFINITY;
         }
         if (typeof min === 'undefined' && typeof max ==='undefined') {
             //set the first valid (not null and not undefined) value of the 
             //given propertie names or the value of the last property to min 
             //and max
-            // see the function coalesceProperties and it' alia coalesceVal in 
+            // see the function optionsValue and it' alia oval in 
             //the library serenix_object.js
-            min = max = coalesceVal(card, ['occurrences', 'Occurences', 'count', 'Count' ]);
+            min = max = oval(card, ['occurrences','count']);
             if (typeof min === 'undefined' || min === null) {
                 throw new Error("Incorrect cardinality/occurences");
             }
         }
     }
     if ( (max === Number.POSITIVE_INFINITY) || (typeof max === 'undefined') || (max === null) || min > 1 || max > 1 ) {
-        type = { type: "Array", itemType: type, cardMin: min||0, cardMax : max, defaultValue: [], nullable: false };
+        type = { type: new SereniX.types.Array( {itemType: type, cardMin: min||0, cardMax : max }), defaultValue: [], nullable: false };
     } else {
         if (min === 0) {
             (property ? property : type={type: type}).nullable = card === true;
@@ -11156,7 +11313,17 @@ KlassUtils.setCardinality = function(type, card, property) {
     }
     return type;
 };
-
+/**
+ * 
+ * @param {type} strProp
+ * @param {type} ctx
+ * @param {type} end
+ * @param {type} sized
+ * @param {type} cardinality
+ * @param {type} name
+ * @param {type} refType
+ * @returns {undefined}
+ */
 KlassUtils.finalizeType = function(strProp, ctx, end, sized, cardinality, name, refType) {
     var _pr;
     if (ctx.ofs < end) {
@@ -11204,8 +11371,36 @@ KlassUtils.finalizeType = function(strProp, ctx, end, sized, cardinality, name, 
                 ctx.prop.paramTypes = [];
             }
             ctx.prop.paramTypes[ctx.prop.paramTypes.length] = name ? { name: name, type: _pr } : _pr;
-        } else {                
-            ctx.prop.type = _pr;
+        } else {             
+            var defVal = _pr.defaultValue;
+            if (defVal !== undefined) {
+                ctx.prop.defaultValue = defVal;
+            }
+            var v = _pr.nullable;
+            if (v === undefined) {
+                v = _pr.acceptNull;
+                if (v === undefined) {
+                    v = _pr.required;   
+                    if (v !== undefined) {
+                        ctx.prop.nullable = !toBool(v);
+                    }
+                } else {
+                    ctx.prop.nullable = toBool(v);
+                }
+            } else {
+                ctx.prop.nullable = toBool(v);
+            }
+            var typ = _pr.type, st;
+            if (typ === undefined) {
+                if (!_pr.typeCallArgs) {
+                    _pr.type = _pr.name;
+                }
+                typ = _pr;
+            }
+            if (st = this.getSTypeDef(_pr, _pr)) {
+                typ = new SereniX.types.SType(st);
+            }            
+            ctx.prop.type = typ;
         }
     }
 };
@@ -11723,13 +11918,15 @@ KlassUtils.fromString = function () {
                     ch = strProp[i];
                     if (ch === '=') { //if formula marker/starter
                         ctx.ofs = i;
-                        var formula = this.processExpression(strProp, this.skipSpaces(strProp, i + 1, n), n, ['>']);
+                        var start;
+                        var formula = this.processExpression(strProp, start = this.skipSpaces(strProp, i + 1, n), n, ['>']);
                         if (!formula) {
                             throw new Error("Incorrect string property");
                         }
                         ctx.ofs = this.skipSpaces(strProp, formula[1] + 1, n);
-                        prop.formula = formula[0];
+                        prop.formula = formula[0];                        
                         step = 5;
+                        prop.stringFormula = strProp.substring(start, formula[1]);
                         i = ctx.ofs - 1; //will be increae by the for loop
                     } else if (strProp.startsWith(INNER_CLASS_VALUES_TYPE_OPENER, i)) {
                         i = this.skipSpaces(strProp, i + INNER_CLASS_VALUES_TYPE_OPENER.length, n);
@@ -11906,7 +12103,9 @@ KlassUtils.fromString = function () {
             if (i < n) {
                 ch = strProp[i];
                 if (ch === '{') {
-                    ctx.ofs = i = this.readOccurences(type, strProp, i, n);
+                    var o_ = this.readOccurences(type, strProp, i, n);
+                    ctx.ofs = i = o_[1];
+                    ctx.type = type = o_[0];
                 } else if (['*', '+', '?', '#'].indexOf(ch) >= 0) {
                     ctx.ofs = i = this.setCardinality(type, ch);
                 }
@@ -11922,8 +12121,9 @@ KlassUtils.fromString = function () {
             }
             var type = { };
             type[key] = strProp.substring(ctx.ofs, i).trim();
-            ctx.type = type;
-            ctx.ofs = i = this.readOccurences(type, strProp, i, n);
+            var o_ = this.readOccurences(type, strProp, i, n);
+            ctx.ofs = i = o_[1];
+            ctx.type = type = o_[0];
             sized = 2;
             i--;
         } else if ((ch === '*' || ch === '+' || ch === '#') && step === 1) {
@@ -16217,5 +16417,3 @@ try {
 
 })();
 } catch(ex) {}
-
-
