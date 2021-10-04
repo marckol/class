@@ -6,6 +6,12 @@
 
 This library can be used when you want the enterprise features and tools of a language like Java, but you need your code to execute in a JavaScript environment.
 
+For business applications, being able to explicitly specify a data type is extremely useful. For example, you may want to strongly type a salary field, so that it can only hold numeric data with a specific precision (length and decimal positions). 
+
+Also being able to explicitely specify, the accepted values and/or default value is extremely useful and guarantee data quality. For example for title field of type string, you can specify "Mr", "Ms", "Miss", "Doctor", "Professor", "PHD" and "Ing." as only accepted values.
+
+For object of class created with Klass.Class, when attempting to set a value with wrong type to a field an error/exception is thrown.
+
 ### Requirements
 You need no particular installation as it's needed for typescript. Just a browser and load:
 
@@ -109,8 +115,9 @@ var E = Klass.Class(
             'salary<unsigned int:250000>', //
             'category=6', //category accepts any type and it's default value is 6.
             'hired<date:"2020-10-01">', //hired is of Date type with October 1st, 2020 as default value
-            'email<email(10,25)>',
+            'email<email(10,25)>', //The email property is of type email that is a predefined type in serenix_types.js. 'email' type is basically a string type.
             'job<String(0,60):"">',
+	    //qualifiedName is a read-only property/field with a formula/expression. qualifiedName used this.getFullName() that is the getter of fullName that is also read-only with formula
             'qualifiedName<String::=this.getFullName() + (this.title ? ", " + this.title : "") + (this.job ? ": " + this.job : "")>',
             'bilingual<boolean:0>',
             'addresses<String(5, 200){1, 5}>', //the property addresses an array of 1 to 5 strings. Each string (item) with minimum length of 5 characters and maximum length of 200 characters
@@ -122,6 +129,7 @@ var E = Klass.Class(
         
 var e = new E({ name: 'NJIOMO', category: 10 }); //Instantiation of the class hr.Employee setted to variable E
 try {
+    //methods chaining
     e.setName('KAMGA').setHired(new Date('2018-08-01')).setFirstName('Marc Olivier').setJob("Senior Conultant").setEchelon(11);
 } catch (ex) {
     output.innerHTML += "<br/>Exception in class hr.Employee<br/>";
