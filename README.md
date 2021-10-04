@@ -43,6 +43,26 @@ Klass.Class({
 }
 ```
 
+```
+Klass.Class(
+    <full class name>
+    [ //array of properties and/or named functions/methods
+        
+    ]
+)
+```
+
+```
+Klass.Class(
+    <full class name>
+    <parent class>, //parent or super class : the class hr.Manager is a sub-class of hr.Employee
+    [ //array of properties and/or named functions/methods
+        
+    ]
+)
+```
+
+
 ### Properties
 
 Two main syntaxes are possible: 
