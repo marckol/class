@@ -19,7 +19,7 @@ You need no particular installation as it's needed for typescript. Just a browse
 ## Getters and Setters
 
   - Each property has a getter. If it's not defined in the methods, it's automatically created. If the property is a boolean, the name of the getter starts with 'is'.Otherwise, it starts with 'get'.
-  - Each property (not read-only) has a setter with name starting with 'set'. If it's not defined in the methods, it's automatically created.
+  - Each property (not read-only) has a setter with name starting with 'set'. If it's not defined in the methods, it's automatically created. When automatically created, the setter returns the object to allow method or field chaining. 
 
 ## Syntax
 
@@ -84,7 +84,7 @@ Two main syntaxes are possible:
 
 ### String short syntax for the definition of properties
 
-```
+```js
 Klass.Class(
     'hr.School', //full class name : the namespace is 'hr' and the (simple) name 'School'
     [
@@ -94,7 +94,7 @@ Klass.Class(
 );
 ```
 
-```
+```js
 var E = Klass.Class(
         'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
         [ //list of properties
@@ -171,7 +171,7 @@ try {
 }
 ```
 
-```
+```js
 var M = Klass.Class(
 	'hr.Manager', 
 	'hr.Employee', //parent or super class : the class hr.Manager is a sub-class of hr.Employee
@@ -186,13 +186,13 @@ var M = Klass.Class(
 
 ### Object for description of properties
 
-```
+```js
 var Component = Klass.Class({
     name : "SereniX.ui.Component",   
     /**
      * 
      * @param {Object} comp
-     * @returns {undefined}
+     * @constructor
      */
     construct:function(comp) {
         function _set(comp, self) {
