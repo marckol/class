@@ -16,6 +16,11 @@ You need no particular installation as it's needed for typescript. Just a browse
   - serenix_types.js
   - serenix_class_base.js.
 
+## Getters and Setters
+
+  - Each property has a getter. If it's not defined in the methods, it's automatically created. If the property is a boolean, the name of the getter starts with 'is'.Otherwise, it starts with 'get'.
+  - Each property (not read-only) has a setter with name starting with 'set'. If it's not defined in the methods, it's automatically created.
+
 ## Syntax
 
 ```
@@ -92,7 +97,7 @@ Klass.Class(
 ```
 var E = Klass.Class(
         'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
-        [ 
+        [ //list of properties
             'password<SereniX.types.Password({name:"StrongPassword", nameField:"fullName",minLength:12,maxLength:18})>', //the property password of type password with min length equals to 12 and max length equals to 18
             'echelon<unsigned int:3:1..10>',
             'name<String(0,60):"">', //name is a string with length in the range 0 to 60 with empty string as default value
