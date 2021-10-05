@@ -67,6 +67,36 @@ For boolean type **boolean** or **bool** can be used
 
 Use **any** for loosed typing. If a property has not defined data type, it's data type is setted to **any**.
 
+### javascript class
+
+Any javascript class is a valid type. 
+
+### Type object
+
+Accepted Type object are instance of the abstract class SereniX.types.Type and must implement the method `is`.
+
+Predefined Type Object are defined in serenix_types.js
+
+Below are predefined Type object:
+
+  - SereniX.types.AnyType : this type accepts any value of any type
+  - SereniX.types.WildcardType
+  - SereniX.types.SType : Sized Type class (can have minLength, maxLength, precision, size properties)
+  - SereniX.types.TArray
+  - SereniX.types.ArrayType  
+  - SereniX.types.VType
+  - SereniX.types.Enum : for type with restricted list of values that are accepted
+  - SereniX.types.Set
+  - SereniX.types.Interval
+  - SereniX.types.Union
+  - SereniX.types.Minus
+  - SereniX.types.Intersect
+  - SereniX.types.ObjectType : SereniX.types.Object is an alias.
+  - SereniX.types.RefType
+  - SereniX.types.VariableType
+  - SereniX.types.JoinType
+  - SereniX.types.ManyToManyJoinType
+
 ## JSON string
 
 To get correct JSON string of an object name e for example, use `e.toJSONString()` statement instead of JSON.stringify(e). JSON.stringify will not produce correct field name.
