@@ -4,6 +4,8 @@
 
 ## About
 
+This library is started on April 3rd, 2021.
+
 This library can be used when you want the enterprise features and tools of a language like Java, but you need your code to execute in a JavaScript environment.
 
 For business applications, being able to explicitly specify a data type is extremely useful. For example, you may want to strongly type a salary field, so that it can only hold numeric data with a specific precision (length and decimal positions). 
