@@ -180,25 +180,37 @@ Klass.Class(
 var E = Klass.Class(
         'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
         [ //list of properties
-            'password<SereniX.types.Password({name:"StrongPassword", nameField:"fullName",minLength:12,maxLength:18})>', //the property password of type password with min length equals to 12 and max length equals to 18
+	    //the property password of type password with min length equals to 12 and max length equals to 18
+            'password<SereniX.types.Password({name:"StrongPassword", nameField:"fullName",minLength:12,maxLength:18})>', 
             'echelon<unsigned int:3:1..10>',
-            'name<String(0,60):"">', //name is a string with length in the range 0 to 60 with empty string as default value
-            'surname<String(0,60):"">', //surname is a string with length in the range 0 to 60 with empty string as default value
-            'firstName<String(0,60):"">', //firstname is a string with length in the range 0 to 60 with empty string as default value
+	    //name is a string with length in the range 0 to 60 with empty string as default value
+            'name<String(0,60):"">', 
+	    //surname is a string with length in the range 0 to 60 with empty string as default value
+            'surname<String(0,60):"">', 
+	    //firstname is a string with length in the range 0 to 60 with empty string as default value
+            'firstName<String(0,60):"">', 
             'title<Title<dataType:String(20)>:"Mr":Mr|Ms|Miss|Doctor|Professor|PHD|Ing.>',
-            'id<unsigned int>', //id property accepts only unsigned integer                        
-            'fullName<String::=((this.firstName ? this.firstName + " " : "") + (this.surname ? this.surname + " " : "") + (this.name ? this.name : "")).trim()>', //fullName it's a read-only property with a formula
+	    //id property accepts only unsigned integer 
+            'id<unsigned int>',   
+	    //fullName it's a read-only property with a formula
+            'fullName<String::=((this.firstName ? this.firstName + " " : "") + (this.surname ? this.surname + " " : "") + (this.name ? this.name : "")).trim()>', 
             'salary<unsigned int:250000>', //
-            'category=6', //category accepts any type and it's default value is 6.
-            'hired<date:"2020-10-01">', //hired is of Date type with October 1st, 2020 as default value
-            'email<email(10,25)>', //The email property is of type email that is a predefined type in serenix_types.js. 'email' type is basically a string type.
+	    //category accepts any type and it's default value is 6.
+            'category=6', 
+	    //hired is of Date type with October 1st, 2020 as default value
+            'hired<date:"2020-10-01">', 
+	    //The email property is of type email that is a predefined type in serenix_types.js. 'email' type is basically a string type.
+            'email<email(10,25)>', 
             'job<String(0,60):"">',
 	    //qualifiedName is a read-only property/field with a formula/expression. qualifiedName used this.getFullName() that is the getter of fullName that is also read-only with formula
             'qualifiedName<String::=this.getFullName() + (this.title ? ", " + this.title : "") + (this.job ? ": " + this.job : "")>',
             'bilingual<boolean:0>',
-            'addresses<String(5, 200){1, 5}>', //the property addresses an array of 1 to 5 strings. Each string (item) with minimum length of 5 characters and maximum length of 200 characters
-            'ipv4<unsigned byte{4}>', //the property ipv4  of type array of 4 bytes,
-            'ip<ipv4>', //the property ip is of string type: 'ipv4' is a predefined string type.
+	    //the property addresses an array of 1 to 5 strings. Each string (item) with minimum length of 5 characters and maximum length of 200 characters
+            'addresses<String(5, 200){1, 5}>', 
+	    //the property ipv4  of type array of 4 bytes,
+            'ipv4<unsigned byte{4}>', 
+	    //the property ip is of string type: 'ipv4' is a predefined string type.
+            'ip<ipv4>', 
             'manager<hr.Manager?:>',
             'comment<String>'
         ]);
