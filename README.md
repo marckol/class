@@ -166,6 +166,15 @@ Two main syntaxes are possible:
 
 ### String short syntax for the definition of properties
 
+Each property is defined using a string element of an array with a specific structure. In the case of pure short syntax, the array represents the list of properties as you can see in the example below.
+#### Structure
+
+The property name that is required
+The data type that can be optional in case of loose-typing
+The default value that is optional
+The possible values that is optional
+
+#### Example:
 ```js
 Klass.Class(
     'hr.School', //full class name : the namespace is 'hr' and the (simple) name 'School'
