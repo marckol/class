@@ -15,7 +15,12 @@ Also being able to explicitely specify, the accepted values and/or default value
 For object of class created with Klass.Class, when attempting to set a value with wrong type to a field an error/exception is thrown.
 
 ### Requirements
-You need no particular installation as it's needed for typescript. Just a browser and load:
+
+You need no particular installation as it's needed for typescript.
+
+No transpiler is needed.
+
+Just a browser and load:
 
   - serenix_object.js
   - xregexpall.js library of **Steven Levithan** that extends javascript regular expression class `RegExp`.
