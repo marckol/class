@@ -324,7 +324,7 @@ var M = Klass.Class(
 
 ### Object for description of properties
   
-  The following keys are necessary to define a class using object metadata syntax Klass.Class({}): 
+  The following keywords are necessary to define a class using object metadata syntax `Klass.Class({})`: 
   
   - **name** : keyword to specify the class name. 
   
