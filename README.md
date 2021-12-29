@@ -204,6 +204,10 @@ Klass.Class(
 );
 ```
 
+In the example above, only data types are specified for the two properties. 
+  - For name property, the data type is string with limited length : 0 for the minimum length and 60 for the maximum length.
+  - For the address property, any object with the specified fields (quarter, street and town) is accepted as data type
+
 ```js
 var E = Klass.Class(
         'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
