@@ -334,10 +334,18 @@ var M = Klass.Class(
     - If namespace keyword or package keyword also specified, it's considered as the base namespace. The effective namespace is the base namespace +  the substring before the last '.' in the name string value
   
   - **namespace** or **package** : 
-  - super, parent, superClass, parentClass, extend or extends : to specify the super class (class that is extended)
+  - **super**, **parent**, **superClass**, **parentClass**, **extend** or **extends** : to specify the super class (class that is extended). A class is expected as value (any function that is a class).
   - **construct** : A function is expected as value. That function is used to create the class constructor
-  - **properties** :
-  - **methods** : 
+  - **properties** : for the definition of the properties of the class. The value can be 
+  
+    - an array of string or object
+    - an object
+  
+  - **methods** : to explicitely specified the methods of the class. 
+    - A method with name that coressponds to a getter name (of existing property) will be used as the getter of the property.
+    - A method with name that coressponds to a setter name (of existing property) will be used as the setter of the property
+
+  **Accessors (getters and setters) methods  will be automatically created for roperties that does not have explicitely defined methods**.
   
   Below, an example of class creation using of objects for properties description.
 
