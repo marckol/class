@@ -190,7 +190,7 @@ The short syntax a property is a string that follows the structure of the proper
       - When no mimimum value specified, the interval accepts value from the lowest possible value to the maximum value
       - When no maximum value specified, the interval accepts value from the minimum value to the highest possible value
       
-    - **formula/expression**: a valid javascript expression preceded by '=' character just after the second ':' character. See the definition of the property fullName in the following example.
+    - **formula/expression**: a valid javascript expression preceded by '=' character just after the second ':' character. See the definition of **fullName** and **qualifiedName** in the following example.
   - **description**
 
 #### Example:
