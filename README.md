@@ -105,6 +105,7 @@ To get correct JSON string of an object name e for example, use `e.toJSONString(
 
 ## Syntax
 
+Klass.Class can be used as a simple invocation or as value of assign statement. Below are some templates/structures. 
 ```
 Klass.Class({
     name: 'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
@@ -304,6 +305,8 @@ try {
 }
 ```
 #### Short Syntax Example 3: class extension with short syntax
+  
+  To specify the super class, the value can be the full name of the super class or the super class it's (function class). In the example, the full name is used.
   
 ```js
 var M = Klass.Class(
