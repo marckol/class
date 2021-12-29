@@ -303,21 +303,40 @@ try {
     console.error(ex);
 }
 ```
-
+#### Short Syntax Example 3: class extension with short syntax
+  
 ```js
 var M = Klass.Class(
-    'hr.Manager', 
+    'hr.Manager',  //the full class name: namespace and simple class name
     'hr.Employee', //parent or super class : the class hr.Manager is a sub-class of hr.Employee
     [
+        //the property class is of type string, has default 'junior' and accepts only listed values ('junior', 'experienced', 'senior' and 'general manager' 
         'class<String:junior:junior|experienced|senior|general manager>',
+        //collaborators property is of type list that can have zero or many Employee items
         'collaborators<hr.Employee+>',
+        //the property projects is of type list of objects and accepts zero or many objects 
         'projects<Object{0,}>',
+        //keys is of type Array of any value and has the array [1, 2, 3] has default value
         'keys<Array:[1, 2, 3]>'
     ]
 );
 ```
 
 ### Object for description of properties
+  
+  name : keyword to specify the class name. 
+  
+  When a class name contains '.' delimiter(s) :
+    - If no namespace keyword and nopackage keyword specify, the simple class name is the last token and the namespace the substring before the last '.' in the name string value
+    - If namespace keyword or package keyword also specified, it's considered as the base namespace. The effective namespace is the base namespace +  the substring before the last '.' in the name string value
+  
+  namespace or package : 
+  super, parent, superClass, parentClass, extend or extends : to specify the super class (class that is extended)
+  construct : 
+  properties :
+  methods : 
+  
+  Below, an example of class creation using of objects for properties description.
 
 ```js
 var Component = Klass.Class({
@@ -475,10 +494,5 @@ var Component = Klass.Class({
          */
         getId:function() {
             return this.__id_;
-        },
-        /**
-         * 
-         * @param {String} id
-         * @returns {SereniX.ui.Component}
-         */
-        setId: function(
+    },
+});
