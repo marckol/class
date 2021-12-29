@@ -177,6 +177,7 @@ The short syntax a property is a string that follows the structure of the proper
   - **data_type**: the data type that can be optional in case of loose-typing
   - **default_value**: the default value that is optional
   - **values**: The possible values that is optional:
+
     The possible values can be: 
     - **Enumeration/list of values**
     - **Interval**
