@@ -169,14 +169,18 @@ Two main syntaxes are possible:
 Each property is defined using a string element of an array with a specific structure. In the case of pure short syntax, the array represents the list of properties as you can see in the example below.
 #### Structure
 
-  - The property name that is required
-  - The data type that can be optional in case of loose-typing
-  - The default value that is optional
-  - The possible values that is optional:
+The short syntax a property is a string that follows the structure of the property pattern below:
+
+"name**<**data_type**:**default_value**:**values**:**description**>**"
+
+  - **name**: the property name that is required
+  - **data_type**: the data type that can be optional in case of loose-typing
+  - **default_value**: the default value that is optional
+  - **values**: The possible values that is optional:
     The possible values can be: 
     - **Enumeration/list of values**
     - **Interval**
-  - Description
+  - **description**
 
 #### Example:
 ```js
