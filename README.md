@@ -175,7 +175,7 @@ The short syntax a property is a string that follows the structure of the proper
 
   - **name**: the property name that is required
   - **data_type**: the data type that can be optional in case of loose-typing
-  - **default_value**: the default value that is optional
+  - **default_value**: the default value that is optional. When no default value, there shall be no text between the first ':' character and the second ':' character
   - **values**: The possible values that is optional:
 
     The possible values can be: 
@@ -190,7 +190,7 @@ The short syntax a property is a string that follows the structure of the proper
       - When no mimimum value specified, the interval accepts value from the lowest possible value to the maximum value
       - When no maximum value specified, the interval accepts value from the minimum value to the highest possible value
       
-    - **formula/expression**: a valid javascript expression
+    - **formula/expression**: a valid javascript expression preceded by '=' character just after the second ':' character. See the definition of the property fullName in the following example.
   - **description**
 
 #### Example:
