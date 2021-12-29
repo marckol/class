@@ -324,17 +324,20 @@ var M = Klass.Class(
 
 ### Object for description of properties
   
-  name : keyword to specify the class name. 
+  The following keys are necessary to define a class using object metadata syntax Klass.Class({}): 
+  
+  - **name** : keyword to specify the class name. 
   
   When a class name contains '.' delimiter(s) :
+  
     - If no namespace keyword and nopackage keyword specify, the simple class name is the last token and the namespace the substring before the last '.' in the name string value
     - If namespace keyword or package keyword also specified, it's considered as the base namespace. The effective namespace is the base namespace +  the substring before the last '.' in the name string value
   
-  namespace or package : 
-  super, parent, superClass, parentClass, extend or extends : to specify the super class (class that is extended)
-  construct : 
-  properties :
-  methods : 
+  - **namespace** or **package** : 
+  - super, parent, superClass, parentClass, extend or extends : to specify the super class (class that is extended)
+  - **construct** : A function is expected as value. That function is used to create the class constructor
+  - **properties** :
+  - **methods** : 
   
   Below, an example of class creation using of objects for properties description.
 
