@@ -179,8 +179,12 @@ The short syntax a property is a string that follows the structure of the proper
   - **values**: The possible values that is optional:
 
     The possible values can be: 
-    - **Enumeration/list of values**
-    - **Interval**
+    - **Enumeration/list of values**: 
+    - **Interval**: 
+      starts and end with  open square bracket character '[' or close square bracket character ']':
+      - when starts with ']', the minimum value is excluded
+      - when ends with '[', the maximum value is excluded
+    - **formula/expression**: a valid javascript expression
   - **description**
 
 #### Example:
