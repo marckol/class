@@ -18,10 +18,10 @@ For object of class created with Klass.Class, when attempting to set a value wit
 You need no particular installation as it's needed for typescript. Just a browser and load:
 
   - serenix_object.js
-  - xregexpall.js
-  - serenix_parser_statements.js
-  - serenix_statement_parser.js
-  - serenix_types.js
+  - xregexpall.js library of **Steven Levithan** that extends javascript regular expression class `RegExp`.
+  - serenix_parser_statements.js : statements classes used when parsing default value, expression, intervals and values
+  - serenix_statement_parser.js : basic javascript parser used to parse default value, expression, intervals and values
+  - serenix_types.js : predefines types (int, unsigned int, byte, unsigned byte, email, ipv4, ipv6, any, ...), provides SereniX.types.Type and it's sub-types (SereniX.types.Enum, SereniX.types.Interval, SereniX.types.Union, SereniX.types.Intersect, SereniX.types.Minus, ...). For more, see Type object section/block below.
   - serenix_class_base.js.
 
 ## Getters and Setters
