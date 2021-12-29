@@ -181,7 +181,7 @@ The short syntax a property is a string that follows the structure of the proper
   - **values**: The possible values that is optional:
 
     The possible values can be: 
-    - **Enumeration/list of values**: 
+    - **Enumeration/list of values**: values separated by '|'character. See the title property definition in **Short Syntax Example 2**.
     - **Interval**: 
     
       starts and end with open square bracket character '[' or close square bracket character ']':
@@ -195,7 +195,7 @@ The short syntax a property is a string that follows the structure of the proper
     - **formula/expression**: a valid javascript expression preceded by '=' character just after the second ':' character. See the definition of **fullName** and **qualifiedName** in the following example.
   - **description**
 
-#### Example:
+#### Short Syntax Example 1:
 ```js
 Klass.Class(
     'hr.School', //full class name : the namespace is 'hr' and the (simple) name 'School'
@@ -210,6 +210,9 @@ In the example above, only data types are specified for the two properties.
   - For name property, the data type is string with limited length : 0 for the minimum length and 60 for the maximum length.
   - For the address property, any object with the specified fields (quarter, street and town) is accepted as data type
 
+#### Short Syntax Example 2: More complex class definition
+  The folowing example, create a class and set the created class to variable E. The class creation is followed by some statements to test the class.
+  
 ```js
 var E = Klass.Class(
         'hr.Employee', //full class name : the namespace is 'hr' and the (simple) name 'Employee'
@@ -223,11 +226,13 @@ var E = Klass.Class(
             'surname<String(0,60):"">', 
         //firstname is a string with length in the range 0 to 60 with empty string as default value
             'firstName<String(0,60):"">', 
+        // title property with data type, "Mr" as default value and the list/enumeration of possible values
             'title<Title<dataType:String(20)>:"Mr":Mr|Ms|Miss|Doctor|Professor|PHD|Ing.>',
         //id property accepts only unsigned integer 
             'id<unsigned int>',   
         //fullName it's a read-only property with a formula
             'fullName<String::=((this.firstName ? this.firstName + " " : "") + (this.surname ? this.surname + " " : "") + (this.name ? this.name : "")).trim()>', 
+        //salary property with default value 
             'salary<unsigned int:250000>', //
         //category accepts any type and it's default value is 6.
             'category=6', 
