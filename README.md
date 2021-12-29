@@ -175,8 +175,8 @@ Each property is defined using a string element of an array with a specific stru
   - The possible values that is optional:
     The possible values can be: 
     - **Enumeration/list of values**
-    - **Interval** ​
- ​- Description
+    - **Interval**
+  - Description
 
 #### Example:
 ```js
