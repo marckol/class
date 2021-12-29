@@ -174,7 +174,9 @@ The short syntax a property is a string that follows the structure of the proper
 "name<data_type:default_value:values:description>"
 
   - **name**: the property name that is required
-  - **data_type**: the data type that can be optional in case of loose-typing
+  - **data_type**: the data type that can be optional in case of loose-typing. It can be :
+    - A string (data type name) or object data type
+    - followed by data length limitation and/or followed by quantifier ('*', '+', '?', '{<min>,<max>?}', '{<min>?,<max>}' or '{<occurences>}') 
   - **default_value**: the default value that is optional. When no default value, there shall be no text between the first ':' character and the second ':' character
   - **values**: The possible values that is optional:
 
