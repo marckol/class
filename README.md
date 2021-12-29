@@ -172,7 +172,11 @@ Each property is defined using a string element of an array with a specific stru
   - The property name that is required
   - The data type that can be optional in case of loose-typing
   - The default value that is optional
-  - The possible values that is optional
+  - The possible values that is optional:
+    The possible values can be: 
+    - **Enumeration/list of values**
+    - **Interval** ​
+ ​- Description
 
 #### Example:
 ```js
